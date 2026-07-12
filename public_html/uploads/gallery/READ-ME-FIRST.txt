@@ -1,0 +1,66 @@
+JSD PROJECT PHOTOS — HOW TO ADD THEM (READ THIS FIRST)
+=======================================================
+
+Your website reads this "gallery" folder automatically. Put photos in the
+right category subfolder, upload, and they appear on the Projects page in
+perfect 3:2 alignment. No renaming into codes, no admin clicking.
+
+--------------------------------------------------------------------
+THE 5 CATEGORY FOLDERS (already created here)
+--------------------------------------------------------------------
+  high-set/       -> High-Set Houses
+  low-set/        -> Low-Set Houses
+  split-level/    -> Split-Level Homes
+  commercial/     -> Low-Rise Commercial
+  featured/       -> Best hero shots (shown large on the home page)
+
+Drop each project photo into the folder that matches its type.
+
+--------------------------------------------------------------------
+HOW TO NAME EACH PHOTO  (this controls order + the caption shown)
+--------------------------------------------------------------------
+Format:   NN Title Of The Project.jpg
+          ^^ number = display order (01 shows first)
+             ^^^^^^^^^ becomes the caption under the photo
+
+Examples (just rename in Finder — no Photoshop needed for naming):
+  high-set/01 Rochedale Family Home.jpg
+  high-set/02 Calamvale Hillside Build.jpg
+  low-set/01 Springwood Open-Plan Home.jpg
+  split-level/01 Eight Mile Plains Split Level.jpg
+  commercial/01 Underwood Retail Development.jpg
+  featured/01 Signature Rochedale Build.jpg
+
+Tips:
+  - Dashes/underscores also work: "01_Rochedale-Family-Home.jpg"
+  - No number is fine too; numbered photos just come first.
+  - Multiple photos per project? Number them: 01, 02, 03...
+
+--------------------------------------------------------------------
+WHAT SIZE / CROP IN PHOTOSHOP?
+--------------------------------------------------------------------
+EASIEST (recommended): DON'T crop at all. Just export each photo as a
+LANDSCAPE JPEG at least 1600 px wide (quality 80). The website crops every
+photo to a perfect 3:2 frame automatically and centres it — so alignment is
+always precise, no matter the original size.
+
+If you DO want to crop in Photoshop for full control:
+  - Aspect ratio: 3:2  (width:height)
+  - Export size:  1500 x 1000 px, JPEG quality 80
+  - This is the exact frame the website uses.
+
+Portrait photos work too, but landscape looks best (the 3:2 frame is wide).
+
+--------------------------------------------------------------------
+HOW TO UPLOAD (one time, ~5 minutes)
+--------------------------------------------------------------------
+1. On your Mac, put your named photos into these category subfolders.
+2. Select the whole "gallery" folder -> right-click -> Compress -> gallery.zip
+3. cPanel -> File Manager -> go to  public_html/uploads/
+4. Upload gallery.zip  ->  right-click  ->  Extract  (overwrite when asked)
+5. Visit  https://www.jsdconstruction.com.au/projects.html  -> your photos
+   are live, cropped and aligned. Refresh once if needed.
+
+That's it. To add more later, just drop more photos in and re-upload.
+
+(You can delete this READ-ME file from the server if you like.)

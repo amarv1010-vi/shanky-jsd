@@ -107,35 +107,97 @@
 
   var CATEGORY_LABELS = { highset: "High-Set", lowset: "Low-Set", split: "Split-Level", commercial: "Commercial" };
 
+  var galleryImages = []; // flat list for the lightbox (built during render)
+
+  function escAttr(s) { return String(s || "").replace(/"/g, "&quot;"); }
+
   function renderProjects(list, gridEl) {
     gridEl.innerHTML = "";
+    galleryImages = list.slice();
     if (!list.length) {
       gridEl.innerHTML = '<p class="lede">No projects in this category yet — check back soon.</p>';
       return;
     }
-    list.forEach(function (p) {
+    list.forEach(function (p, i) {
       var card = document.createElement("article");
       card.className = "project-card reveal";
       card.setAttribute("data-category", p.category);
+      var meta = (CATEGORY_LABELS[p.category] || p.category) + (p.location ? " · " + p.location : "");
       card.innerHTML =
-        '<div class="project-media"><img loading="lazy" src="' + p.image + '" alt="' + p.title + '"></div>' +
+        '<button class="project-media" data-lightbox="' + i + '" aria-label="View ' + escAttr(p.title) + '">' +
+        '<img loading="lazy" src="' + p.image + '" alt="' + escAttr(p.title) + '">' +
+        '<span class="project-zoom" aria-hidden="true">⤢</span>' +
+        "</button>" +
         '<div class="project-info">' +
-        '<span class="project-tag">' + (CATEGORY_LABELS[p.category] || p.category) + " · " + (p.location || "QLD") + "</span>" +
+        '<span class="project-tag">' + meta + "</span>" +
         "<h3>" + p.title + "</h3>" +
-        "<p>" + (p.description || "") + "</p>" +
+        (p.description ? "<p>" + p.description + "</p>" : "") +
         "</div>";
       gridEl.appendChild(card);
     });
+    // wire lightbox
+    gridEl.querySelectorAll("[data-lightbox]").forEach(function (btn) {
+      btn.addEventListener("click", function () { openLightbox(parseInt(btn.getAttribute("data-lightbox"), 10)); });
+    });
     if (gsapReady) {
-      gsap.fromTo(gridEl.children, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", stagger: 0.07 });
+      gsap.fromTo(gridEl.children, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", stagger: 0.06 });
     } else {
       Array.prototype.forEach.call(gridEl.children, function (c) { c.classList.remove("reveal"); });
     }
   }
 
+  /* ---------- Lightbox (premium full-screen viewer) ---------- */
+  var lb, lbImg, lbCap, lbIndex = 0;
+  function ensureLightbox() {
+    if (lb) return;
+    lb = document.createElement("div");
+    lb.className = "lightbox";
+    lb.innerHTML =
+      '<button class="lb-close" aria-label="Close">✕</button>' +
+      '<button class="lb-nav lb-prev" aria-label="Previous">‹</button>' +
+      '<figure class="lb-stage"><img alt=""><figcaption></figcaption></figure>' +
+      '<button class="lb-nav lb-next" aria-label="Next">›</button>';
+    document.body.appendChild(lb);
+    lbImg = lb.querySelector("img");
+    lbCap = lb.querySelector("figcaption");
+    lb.querySelector(".lb-close").addEventListener("click", closeLightbox);
+    lb.querySelector(".lb-prev").addEventListener("click", function (e) { e.stopPropagation(); stepLightbox(-1); });
+    lb.querySelector(".lb-next").addEventListener("click", function (e) { e.stopPropagation(); stepLightbox(1); });
+    lb.addEventListener("click", function (e) { if (e.target === lb) closeLightbox(); });
+    document.addEventListener("keydown", function (e) {
+      if (!lb.classList.contains("open")) return;
+      if (e.key === "Escape") closeLightbox();
+      else if (e.key === "ArrowLeft") stepLightbox(-1);
+      else if (e.key === "ArrowRight") stepLightbox(1);
+    });
+  }
+  function openLightbox(i) {
+    ensureLightbox();
+    lbIndex = i;
+    showLightbox();
+    lb.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function showLightbox() {
+    var p = galleryImages[lbIndex];
+    if (!p) return;
+    lbImg.src = p.image;
+    lbImg.alt = p.title || "";
+    lbCap.textContent = (p.title || "") + (p.location ? " — " + p.location : "");
+  }
+  function stepLightbox(d) {
+    lbIndex = (lbIndex + d + galleryImages.length) % galleryImages.length;
+    showLightbox();
+  }
+  function closeLightbox() {
+    if (lb) lb.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
   var projectGrid = document.querySelector("[data-projects-grid]");
   if (projectGrid) {
     var allProjects = FALLBACK_PROJECTS;
+    var usingRealPhotos = false;
     var limit = parseInt(projectGrid.getAttribute("data-limit") || "0", 10);
 
     function applyFilter(cat) {
@@ -144,15 +206,30 @@
       renderProjects(list, projectGrid);
     }
 
-    fetch(API_BASE + "/projects.php")
-      .then(function (r) { if (!r.ok) throw new Error("api unavailable"); return r.json(); })
-      .then(function (data) {
-        if (data && data.ok && Array.isArray(data.projects) && data.projects.length) {
-          allProjects = data.projects;
-        }
-        applyFilter("all");
-      })
-      .catch(function () { applyFilter("all"); });
+    function refreshFilterButtons() {
+      // hide category buttons that have no photos so the bar always looks intentional
+      var present = {};
+      allProjects.forEach(function (p) { present[p.category] = true; });
+      document.querySelectorAll(".filter-btn").forEach(function (btn) {
+        var f = btn.getAttribute("data-filter");
+        btn.style.display = (f === "all" || present[f]) ? "" : "none";
+      });
+    }
+
+    // Merge the filesystem gallery (drop-a-folder) with any admin/DB projects.
+    Promise.all([
+      fetch(API_BASE + "/gallery.php").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+      fetch(API_BASE + "/projects.php").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+    ]).then(function (res) {
+      var gallery = (res[0] && res[0].ok && res[0].projects) ? res[0].projects : [];
+      var db = (res[1] && res[1].ok && res[1].projects) ? res[1].projects : [];
+      // Real photos dropped in the gallery folder win outright (no demo mixing).
+      // Otherwise use admin/DB projects; otherwise the built-in placeholders.
+      if (gallery.length) { allProjects = gallery; usingRealPhotos = true; }
+      else if (db.length) { allProjects = db; usingRealPhotos = true; }
+      refreshFilterButtons();
+      applyFilter("all");
+    });
 
     document.querySelectorAll(".filter-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {

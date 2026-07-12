@@ -11,3 +11,10 @@ Thumbs.db
 *.log
 
 !public_html/uploads/projects/.gitkeep
+
+# Project photos dropped into the gallery live on the server, not in git
+public_html/uploads/gallery/**/*.jpg
+public_html/uploads/gallery/**/*.jpeg
+public_html/uploads/gallery/**/*.png
+public_html/uploads/gallery/**/*.webp
+!public_html/uploads/gallery/**/.gitkeep
