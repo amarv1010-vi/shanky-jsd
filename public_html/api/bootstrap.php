@@ -104,3 +104,4 @@ function client_ip(): string
 
 require_once __DIR__ . '/lib/Mailer.php';
 require_once __DIR__ . '/lib/WhatsApp.php';
+require_once __DIR__ . '/lib/Users.php';

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Build Cost Estimator | JSD Construction Pty Ltd</title>
-  <meta name="description" content="Get an instant indicative build cost range for your high-set, low-set, split-level or commercial project in South East Queensland.">
-  <meta property="og:title" content="Build Cost Estimator | JSD Construction Pty Ltd">
-  <meta property="og:description" content="Get an instant indicative build cost range for your high-set, low-set, split-level or commercial project in South East Queensland.">
+  <title>Download the App | JSD Construction Pty Ltd</title>
+  <meta name="description" content="The JSD Construction Customer App — track your build progress, costs and site photos, and chat live with the JSD team. Coming soon to iOS and Android.">
+  <meta property="og:title" content="Download the App | JSD Construction Pty Ltd">
+  <meta property="og:description" content="The JSD Construction Customer App — track your build progress, costs and site photos, and chat live with the JSD team. Coming soon to iOS and Android.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.jsdconstruction.com.au/">
   <link rel="icon" type="image/svg+xml" href="assets/img/logos/favicon.svg">
@@ -26,9 +26,9 @@
       <nav class="main-nav" aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="projects.html">Projects</a>
-      <a href="estimator.html" class="active">Estimator</a>
+      <a href="estimator.html">Estimator</a>
       <a href="archive.html">Archive</a>
-      <a href="download.html">Download</a>
+      <a href="download.html" class="active">Download</a>
       <a href="contact.html">Contact</a>
       <a href="account/">Login</a>
       <a class="btn btn-gold nav-cta" href="enquiry.html">Enquire Now</a>
@@ -39,75 +39,48 @@
   <main>
     <section class="page-hero">
       <div class="hero-bg"></div>
+      <div class="hero-grid-lines"></div>
       <div class="container">
-        <span class="eyebrow">Plan Your Budget</span>
-        <h1 class="display-xl">Instant build <span class="gold-text">cost estimator</span></h1>
-        <p class="lede">Get an indicative 2026 South East Queensland build-cost range in seconds. For a detailed fixed quote, submit your details and our team will prepare one within 2 business days.</p>
+        <span class="eyebrow">Your Build, In Your Pocket</span>
+        <h1 class="display-xl">The JSD <span class="gold-text">Customer App</span></h1>
+        <p class="lede">Complete transparency from slab to handover — progress, costs, photos and a direct line to the team building your home.</p>
       </div>
     </section>
     <section class="section" style="padding-top:30px">
-      <div class="container">
-        <div class="estimator-wrap reveal">
-          <form data-estimator data-endpoint="api/estimate.php" novalidate>
-            <div class="form-grid">
-              <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
-              <div class="field">
-                <label for="est-type">Build Type</label>
-                <select id="est-type" name="build_type" required>
-                  <option value="highset">High-Set House</option>
-                  <option value="lowset">Low-Set House</option>
-                  <option value="split">Split-Level Home</option>
-                  <option value="commercial">Low-Rise Commercial</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="est-spec">Specification Level</label>
-                <select id="est-spec" name="spec_level" required>
-                  <option value="standard">Standard</option>
-                  <option value="premium" selected>Premium</option>
-                  <option value="luxury">Luxury</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="est-area">Floor Area (m²)</label>
-                <input id="est-area" type="number" name="floor_area" min="50" max="2000" value="220" required>
-                <span class="error-msg">Enter a floor area of at least 50 m².</span>
-              </div>
-              <div class="field">
-                <label for="est-slope">Block Slope</label>
-                <select id="est-slope" name="slope" required>
-                  <option value="flat">Flat</option>
-                  <option value="gentle">Gentle slope</option>
-                  <option value="steep">Steep slope</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="est-name">Your Name</label>
-                <input id="est-name" type="text" name="name" placeholder="Full name" required>
-                <span class="error-msg">Please enter your name.</span>
-              </div>
-              <div class="field">
-                <label for="est-email">Email</label>
-                <input id="est-email" type="email" name="email" placeholder="you@email.com" required>
-                <span class="error-msg">Please enter a valid email.</span>
-              </div>
-              <div class="field full">
-                <label for="est-phone">Mobile</label>
-                <input id="est-phone" type="tel" name="mobile" data-type="phone" placeholder="04xx xxx xxx" required>
-                <span class="error-msg">Please enter a valid phone number.</span>
-              </div>
-              <input type="hidden" name="estimate_range" value="">
-              <div class="full">
-                <button class="btn btn-gold" type="submit" style="width:100%">Email Me a Detailed Quote</button>
-              </div>
-            </div>
-            <div class="form-status" role="status"></div>
-          </form>
-          <div class="estimate-result">
-            <span class="eyebrow">Indicative Range</span>
-            <div class="estimate-figure" data-estimate-output>—</div>
-            <p class="estimate-note">Live estimate based on current SEQ build rates for your selected type, spec level, floor area and block slope. Indicative only — final pricing follows a site assessment and detailed quote from JSD Construction.</p>
+      <div class="container app-showcase">
+        <div class="reveal">
+          <span class="eyebrow">What you'll get</span>
+          <h2 class="display-lg" style="margin:14px 0 8px">Everything, <span class="gold-text">live</span></h2>
+          <ul class="app-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <span><b>Build progress tracking</b> — every stage from site prep to handover, updated by our team as it happens.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <span><b>Cost &amp; payment management</b> — see approved variations, progress claims and what's next, with zero surprises.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <span><b>Site photo stream</b> — fresh photos from your block, even when you can't visit.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <span><b>Project monitoring</b> — schedules, inspections and council milestones in one timeline.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <span><b>Live chat</b> — message the JSD admin and support team directly inside the app.</span></li>
+          </ul>
+          <div class="store-badges">
+            <span class="store-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><span><small>Coming soon to</small><b>App Store</b></span></span>
+            <span class="store-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.59.34-1.11.84-1.35l9.4 9.35-9.4 9.35c-.5-.24-.84-.76-.84-1.35m13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27m3.35-4.31c.34.27.59.68.59 1.19s-.22.9-.57 1.18l-2.29 1.32-2.5-2.5 2.5-2.5 2.27 1.31M6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z"/></svg><span><small>Coming soon to</small><b>Google Play</b></span></span>
           </div>
+          <p style="color:var(--text-dim);font-size:.9rem;margin-top:22px">Can't wait? <a href="account/" style="color:var(--gold-hi)">Create your free web account</a> today — your enquiries and quotes are already trackable online, and your login will carry straight into the app at launch.</p>
+        </div>
+        <div class="reveal">
+          <div class="phone-mock">
+            <div class="mock-row" style="margin-top:26px"><b>ROCHEDALE HIGH-SET · STAGE 6/9</b>Frame complete — internal linings underway<div class="mock-bar"><i></i></div></div>
+            <div class="mock-row"><b>NEXT PAYMENT</b>Enclosed stage claim · due 14 days</div>
+            <div class="mock-row"><b>LATEST SITE PHOTOS</b>12 new photos from today's pour ✓</div>
+            <div class="mock-row"><b>MESSAGE FROM JSD</b>"Roof trusses arrive Thursday — here's the updated schedule."</div>
+            <div class="mock-row" style="background:rgba(207,161,104,.1);border-color:rgba(207,161,104,.4)"><b>LIVE CHAT</b>Support team online now · replies in minutes</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section section-alt">
+      <div class="container">
+        <div class="cta-band reveal">
+          <h2 class="display-md">Building with JSD? <span class="gold-text">You'll be first to know.</span></h2>
+          <p>App launch invitations go to registered clients first — create your account or make an enquiry to get on the list.</p>
+          <a class="btn btn-gold" href="account/?mode=signup">Create Free Account</a>
         </div>
       </div>
     </section>

@@ -167,7 +167,9 @@
   var FALLBACK_TESTIMONIALS = [
     { name: "Priya & Daniel M.", project: "High-Set Build, Rochedale", rating: 5, quote: "Jagdeep oversaw every stage himself. The timber detailing and finish are beyond what we expected — and we moved in on schedule." },
     { name: "Robert K.", project: "Commercial Fit-Out, Underwood", rating: 5, quote: "End-to-end management meant one point of contact from council approvals to handover. Professional from day one." },
-    { name: "Sandeep & Aman G.", project: "Split-Level Home, Calamvale", rating: 5, quote: "Our sloping block scared off other builders. JSD turned it into the best feature of the house." }
+    { name: "Sandeep & Aman G.", project: "Split-Level Home, Calamvale", rating: 5, quote: "Our sloping block scared off other builders. JSD turned it into the best feature of the house." },
+    { name: "Harpreet & Simran K.", project: "Investment Duplex, Sunnybank Hills", rating: 5, quote: "Transparent pricing from the first quote to the final invoice — not a single surprise. Our duplex was tenanted within two weeks of handover." },
+    { name: "Melanie T.", project: "Knockdown Rebuild, Mount Gravatt", rating: 5, quote: "We live locally and drove past the site every day — it was always tidy, always moving. Twelve months on, the JSD team still answers every little maintenance question." }
   ];
   var tWrap = document.querySelector("[data-testimonials]");
   if (tWrap) {

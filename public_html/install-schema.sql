@@ -98,6 +98,27 @@ CREATE TABLE IF NOT EXISTS testimonials (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Site accounts: one seeded admin + self-registered customers.
+-- Passwords are bcrypt hashes (password_hash / password_verify in PHP).
+CREATE TABLE IF NOT EXISTS users (
+  id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  role          ENUM('admin','customer') NOT NULL DEFAULT 'customer',
+  username      VARCHAR(190)  NOT NULL,            -- customers use their email as username
+  name          VARCHAR(120)  NULL,
+  email         VARCHAR(190)  NULL,
+  mobile        VARCHAR(30)   NULL,
+  password_hash VARCHAR(255)  NOT NULL,
+  created_at    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_username (username)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Default admin login: admin / Delhi@1357 — change it from the admin panel
+-- (Admin > Change Password) or the customer portal after first login.
+INSERT INTO users (role, username, name, email, password_hash) VALUES
+('admin', 'admin', 'JSD Administrator', 'contact@jsdconstruction.com.au',
+ '$2y$12$oDg1yVmjuE1f5Rd19SSIH.bwNfff8jXMo661jepIo1g1Mo/WlMbqa');
+
 -- Seed data so the site has content on first deploy -------------
 
 INSERT INTO projects (title, category, location, description, cover_image, sort_order) VALUES
@@ -111,4 +132,6 @@ INSERT INTO projects (title, category, location, description, cover_image, sort_
 INSERT INTO testimonials (name, project, rating, quote, sort_order) VALUES
 ('Priya & Daniel M.', 'High-Set Build, Rochedale',    5, 'Jagdeep oversaw every stage himself. The timber detailing and finish are beyond what we expected — and we moved in on schedule.', 1),
 ('Robert K.',         'Commercial Fit-Out, Underwood',5, 'End-to-end management meant one point of contact from council approvals to handover. Professional from day one.', 2),
-('Sandeep & Aman G.', 'Split-Level Home, Calamvale',  5, 'Our sloping block scared off other builders. JSD turned it into the best feature of the house.', 3);
+('Sandeep & Aman G.', 'Split-Level Home, Calamvale',  5, 'Our sloping block scared off other builders. JSD turned it into the best feature of the house.', 3),
+('Harpreet & Simran K.', 'Investment Duplex, Sunnybank Hills', 5, 'Transparent pricing from the first quote to the final invoice — not a single surprise. Our duplex was tenanted within two weeks of handover.', 4),
+('Melanie T.', 'Knockdown Rebuild, Mount Gravatt', 5, 'We live locally and drove past the site every day — it was always tidy, always moving. Twelve months on, the JSD team still answers every little maintenance question.', 5);

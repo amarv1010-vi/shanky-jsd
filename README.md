@@ -58,6 +58,9 @@ public_html/              ← upload THIS folder's contents to cPanel public_htm
 │   ├── projects.php      GET: published projects (feeds gallery)
 │   ├── testimonials.php  GET: published testimonials (feeds home page)
 │   └── lib/              Mailer.php (Titan SMTP) + WhatsApp.php (Meta Cloud API)
+├── account/              Login/sign-up portal + customer dashboard (enquiry tracking, password change)
+├── download.html         JSD Customer App showcase page
+├── install.php           One-time browser installer (writes config, imports schema, self-deletes)
 ├── admin/                Password-protected admin panel (PHP sessions + CSRF)
 │   ├── index.php         Login
 │   ├── dashboard.php     Counts + latest enquiries
@@ -84,6 +87,10 @@ docs/ASSETS-GUIDE.md      Photo/logo numbering system & where to store originals
 | 5 | Admin photo upload → Projects panel, **3:2 cropped** | `admin/projects.php` (`crop_to_ratio()` — GD centre-crop 1500×1000, EXIF rotate) |
 | 6 | Two extra use-cases | **Cost Estimator** (`estimator.html` + `api/estimate.php`) and **Testimonials manager** (`admin/testimonials.php` + `api/testimonials.php`) |
 | 7 | Contact tab emailing contact@… behind a short form | `contact.html` → `api/contact.php` (topic routes to contact@/quotes@/projects@/support@) |
+| 8 | Login / Sign-up (admin + customer, password change) | `account/` portal + `users` table (`api/lib/Users.php`, self-migrating). Default admin login `admin` / `Delhi@1357` — changeable at Admin > Change Password (`admin/password.php`) and in the customer dashboard |
+| 9 | Download tab (JSD Customer App showcase) | `download.html` — progress/cost/photos/live-chat feature promo, App Store & Google Play "coming soon" badges, links into the web portal |
+| 10 | Support & maintenance assurance | "Support & Aftercare" section on `index.html` (QBCC statutory warranty, 12-month maintenance, direct support line, care checks) + support blurb in customer dashboard |
+| 11 | Signature cursor effect | `assets/js/cursor-fx.js` — gold light veil + glitter particle trail follows the cursor "lighting the fabric" of the site; desktop-only, honours `prefers-reduced-motion` |
 
 Also included: honeypot + per-IP rate limiting on all forms, CSRF protection in admin,
 prepared statements everywhere, `.htaccess` hardening, mobile-first responsive layout,

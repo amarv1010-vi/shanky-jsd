@@ -8,6 +8,7 @@ function admin_header(string $title, string $active = ''): void
         'enquiries'    => ['enquiries.php',    'Enquiries'],
         'projects'     => ['projects.php',     'Projects & Photos'],
         'testimonials' => ['testimonials.php', 'Testimonials'],
+        'password'     => ['password.php',     'Change Password'],
     ];
     echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
        . '<meta name="viewport" content="width=device-width, initial-scale=1.0">'

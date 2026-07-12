@@ -10,12 +10,14 @@ require_once dirname(__DIR__) . '/api/bootstrap.php';
 
 global $CONFIG;
 
-session_name($CONFIG['admin']['session_name']);
-session_start([
-    'cookie_httponly' => true,
-    'cookie_samesite' => 'Lax',
-    'cookie_secure'   => !empty($_SERVER['HTTPS']),
-]);
+if (session_status() === PHP_SESSION_NONE) {
+    session_name($CONFIG['admin']['session_name']);
+    session_start([
+        'cookie_httponly' => true,
+        'cookie_samesite' => 'Lax',
+        'cookie_secure'   => !empty($_SERVER['HTTPS']),
+    ]);
+}
 
 function is_admin(): bool
 {
@@ -33,6 +35,22 @@ function require_admin(): void
 function admin_login(string $username, string $password): bool
 {
     global $CONFIG;
+
+    // primary: users table (supports in-panel password changes)
+    try {
+        $u = Users::verify($username, $password, 'admin');
+        if ($u) {
+            session_regenerate_id(true);
+            $_SESSION['jsd_admin'] = true;
+            $_SESSION['jsd_admin_id'] = (int) $u['id'];
+            $_SESSION['csrf'] = bin2hex(random_bytes(24));
+            return true;
+        }
+    } catch (Throwable $e) {
+        error_log('admin_login users-table failure: ' . $e->getMessage());
+    }
+
+    // fallback: static credentials from config.php (pre-users-table installs)
     $a = $CONFIG['admin'];
     if (hash_equals($a['username'], $username) && password_verify($password, $a['password_hash'])) {
         session_regenerate_id(true);
