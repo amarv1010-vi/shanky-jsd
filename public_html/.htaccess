@@ -1,0 +1,34 @@
+# JSD Construction — Apache config for GoDaddy cPanel
+
+# Force HTTPS + www
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+RewriteRule ^ https://www.%1%{REQUEST_URI} [L,R=301]
+
+# Never serve config or library files directly
+<FilesMatch "^(config\.php|config\.example\.php|bootstrap\.php|Mailer\.php|WhatsApp\.php|auth\.php|layout\.php)$">
+  Require all denied
+</FilesMatch>
+
+# No directory listings
+Options -Indexes
+
+# Basic hardening headers
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Cache static assets
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+</IfModule>
