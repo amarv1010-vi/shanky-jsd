@@ -1,6 +1,23 @@
 # Deployment Guide — GoDaddy cPanel (Web Hosting Plus)
 
-Go-live checklist for **www.jsdconstruction.com.au**. Total time ≈ 30 minutes.
+Go-live checklist for **www.jsdconstruction.com.au**.
+
+## ⚡ Fast path (recommended, ≈ 10 minutes)
+
+1. Download **`dist/jsd-website-upload.zip`** from this repo.
+2. cPanel → **File Manager** → open the **document root of jsdconstruction.com.au**
+   (check under cPanel → *Domains* which folder that is; do **not** extract into another
+   domain's folder such as `amarvi.in`).
+3. **Upload** the zip → right-click → **Extract** → delete the zip afterwards.
+   (Enable *Settings → Show Hidden Files* to confirm `.htaccess` extracted.)
+4. cPanel → **MySQL® Databases**: create a database + user (ALL PRIVILEGES). Note the names.
+5. Visit **`https://www.jsdconstruction.com.au/install.php`** and fill the one-page form
+   (database details, your new admin username/password, Titan mailbox password).
+   The installer creates all tables + seed content, writes `api/config.php`, and
+   **deletes itself** when done.
+6. Log in at `/admin/` and start using the site.
+
+The manual steps below achieve the same result without the installer.
 
 ## Step 1 — Upload the site
 

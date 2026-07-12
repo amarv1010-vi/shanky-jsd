@@ -12,6 +12,11 @@ RewriteRule ^ https://www.%1%{REQUEST_URI} [L,R=301]
   Require all denied
 </FilesMatch>
 
+# Never serve SQL files over the web (installer reads it from disk)
+<FilesMatch "\.sql$">
+  Require all denied
+</FilesMatch>
+
 # No directory listings
 Options -Indexes
 
