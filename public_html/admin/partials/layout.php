@@ -5,7 +5,7 @@ function admin_header(string $title, string $active = ''): void
 {
     $items = [
         'dashboard'    => ['dashboard.php',    'Dashboard'],
-        'enquiries'    => ['enquiries.php',    'Enquiries'],
+        'enquiries'    => ['enquiries.php',    'Customer Database'],
         'projects'     => ['projects.php',     'Projects & Photos'],
         'testimonials' => ['testimonials.php', 'Testimonials'],
         'password'     => ['password.php',     'Change Password'],

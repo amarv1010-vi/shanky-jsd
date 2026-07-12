@@ -36,14 +36,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// ---- CSV export ----
+// ---- CSV export (works on mobile & desktop — downloads a .csv file) ----
 if (isset($_GET['export'])) {
     $table = $_GET['export'];
-    if (in_array($table, ['enquiries', 'contact_messages', 'estimates'], true)) {
+    if ($table === 'customers') {
+        Users::ensureTable();
+        $rows = db()->query("SELECT id, name, email, mobile, created_at FROM users WHERE role = 'customer' ORDER BY created_at DESC")->fetchAll();
+    } elseif (in_array($table, ['enquiries', 'contact_messages', 'estimates'], true)) {
         $rows = db()->query("SELECT * FROM {$table} ORDER BY created_at DESC")->fetchAll();
+    } else {
+        $rows = null;
+    }
+    if ($rows !== null) {
         header('Content-Type: text/csv; charset=utf-8');
         header("Content-Disposition: attachment; filename=jsd-{$table}-" . date('Ymd') . '.csv');
         $out = fopen('php://output', 'w');
+        fwrite($out, "\xEF\xBB\xBF"); // UTF-8 BOM so Excel opens accents correctly
         if ($rows) {
             fputcsv($out, array_keys($rows[0]));
             foreach ($rows as $r) fputcsv($out, $r);
@@ -53,9 +61,11 @@ if (isset($_GET['export'])) {
     }
 }
 
+Users::ensureTable();
 $enquiries = db()->query('SELECT * FROM enquiries ORDER BY created_at DESC LIMIT 500')->fetchAll();
 $messages  = db()->query('SELECT * FROM contact_messages ORDER BY created_at DESC LIMIT 500')->fetchAll();
 $leads     = db()->query('SELECT * FROM estimates ORDER BY created_at DESC LIMIT 500')->fetchAll();
+$customers = db()->query("SELECT id, name, email, mobile, created_at FROM users WHERE role = 'customer' ORDER BY created_at DESC LIMIT 500")->fetchAll();
 
 admin_header('Enquiries', 'enquiries');
 
@@ -157,6 +167,25 @@ function delete_form(string $table, int $id): void
   </tr>
   <?php endforeach; ?>
   <?php if (!$leads): ?><tr><td colspan="12">No estimator leads yet.</td></tr><?php endif; ?>
+</table>
+</div>
+
+<div class="section-title">Registered customers (<?= count($customers) ?>)
+  <a class="btn btn-ghost btn-sm" style="margin-left:12px" href="?export=customers">Export CSV</a></div>
+<p class="help" style="margin:-6px 0 14px">Customers who created an account via the website Login → Create Account. Download as CSV for your records (opens in Excel / Google Sheets on mobile or desktop).</p>
+<div class="table-wrap">
+<table class="data">
+  <tr><th>#</th><th>Joined</th><th>Name</th><th>Email (username)</th><th>Mobile</th></tr>
+  <?php foreach ($customers as $r): ?>
+  <tr>
+    <td><?= (int) $r['id'] ?></td>
+    <td><?= e(date('d M Y H:i', strtotime($r['created_at']))) ?></td>
+    <td><?= e($r['name']) ?></td>
+    <td><a href="mailto:<?= e($r['email']) ?>"><?= e($r['email']) ?></a></td>
+    <td><?= e($r['mobile'] ?: '—') ?></td>
+  </tr>
+  <?php endforeach; ?>
+  <?php if (!$customers): ?><tr><td colspan="5">No customer accounts yet — they'll appear here when visitors sign up via the Login page.</td></tr><?php endif; ?>
 </table>
 </div>
 <?php admin_footer(); ?>

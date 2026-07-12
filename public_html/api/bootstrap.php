@@ -15,10 +15,20 @@ define('JSD_ROOT', dirname(__DIR__));
 
 $configFile = __DIR__ . '/config.php';
 if (!file_exists($configFile)) {
-    // Allow the static site to degrade gracefully before config.php exists.
+    // Not installed yet. Browser page requests (login, admin, account) are
+    // sent straight to the one-time installer; JSON API calls degrade
+    // gracefully so the static site keeps working.
+    $script = $_SERVER['SCRIPT_NAME'] ?? '';
+    $isApi = str_contains($script, '/api/');
+    if (!$isApi && file_exists(JSD_ROOT . '/install.php')) {
+        // works at domain root and in subfolder installs alike
+        $base = rtrim(dirname(dirname($script)), '/\\');
+        header('Location: ' . $base . '/install.php');
+        exit;
+    }
     http_response_code(503);
     header('Content-Type: application/json');
-    echo json_encode(['ok' => false, 'error' => 'Server not configured yet (api/config.php missing).']);
+    echo json_encode(['ok' => false, 'error' => 'Server not configured yet (api/config.php missing). Open /install.php in your browser to finish setup.']);
     exit;
 }
 $CONFIG = require $configFile;

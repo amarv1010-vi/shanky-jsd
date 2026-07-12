@@ -64,9 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $already = $pdo->query("SHOW TABLES LIKE 'enquiries'")->fetch();
                 if (!$already) {
-                    foreach (preg_split('/;\s*\n/', $schema) as $stmt) {
+                    // strip full-line SQL comments first, THEN split on ';' so that
+                    // comment lines sitting above a CREATE/INSERT never swallow it.
+                    $clean = preg_replace('/^\s*--.*$/m', '', $schema);
+                    foreach (explode(';', $clean) as $stmt) {
                         $stmt = trim($stmt);
-                        if ($stmt !== '' && !str_starts_with($stmt, '--')) {
+                        if ($stmt !== '') {
                             $pdo->exec($stmt);
                         }
                     }
