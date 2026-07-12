@@ -142,6 +142,7 @@ class Mailer
       &nbsp;&nbsp;
       <a href="tel:+61424475767" style="display:inline-block;border:1px solid #9F7745;color:#CFA168;text-decoration:none;font-size:13px;padding:11px 26px;border-radius:24px">Call ' . $site['phone'] . '</a>
     </td></tr>
+    <tr><td style="padding:24px 40px 4px;background:#ffffff">' . self::signature() . '</td></tr>
     <tr><td style="border-top:1px solid #3a2f1f;padding:20px 40px;color:#6f6353;font-size:11px;line-height:1.7">
       JSD Construction Pty Ltd · Brisbane, QLD · QLD Low-Rise Builder Licence<br>
       <a href="' . $site['url'] . '" style="color:#9F7745">' . $site['url'] . '</a> ·
@@ -152,5 +153,44 @@ class Mailer
 </td></tr>
 </table>
 </body></html>';
+    }
+
+    /** Company email signature (rendered on a white panel inside the template). */
+    public static function signature(): string
+    {
+        return '<table style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #1a1a1a; line-height: 1.6; max-width: 420px;">
+	<tbody valign="middle">
+		<tr valign="inherit">
+			<td style="padding-bottom: 6px;" valign="inherit"><strong style="font-size: 17px; letter-spacing: 0.3px;">JSD Construction Pty Ltd</strong></td>
+		</tr>
+		<tr valign="inherit">
+			<td style="padding-bottom: 10px; color: #555;" valign="inherit">Luxury custom build homes crafted without compromise</td>
+		</tr>
+		<tr valign="inherit">
+			<td style="padding-bottom: 10px;" valign="inherit">
+				<div style="width: 40px; height: 2px; background-color: #000;">
+					<br>
+				</div>
+			</td>
+		</tr>
+		<tr valign="inherit">
+			<td style="padding-bottom: 10px;" valign="inherit"><a href="tel:+61424475767" style="color:#000; text-decoration:none;">&nbsp;&#128222; 0424 475 767</a>
+				<br><a href="mailto:info@jsdconstruction.com.au" style="color:#000; text-decoration:none;">&nbsp;&#9993;&#65039; info@jsdconstruction.com.au</a>
+				<br><a href="https://jsdconstruction.com.au" target="_blank" style="color:#000; text-decoration:none;">&nbsp;&#127760; jsdconstruction.com.au</a>
+				<br><span style="color:#777;">&#128205; Brisbane, Australia</span></td>
+		</tr>
+		<tr valign="inherit">
+			<td style="padding-bottom: 12px; color: #444;" valign="inherit">Bespoke design &amp; construction &middot; Premium materials &middot; Commercial-grade standards
+				<br>High-end finishes &middot; Built for clients who expect the best</td>
+		</tr>
+		<tr valign="inherit">
+			<td style="padding-bottom: 12px;" valign="inherit">
+				<a href="https://www.instagram.com/jsd.construction/" target="_blank" style="text-decoration:none; color:#000;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="16" height="16" style="vertical-align: middle; border: medium;"> <span style="margin-left:6px;">Follow us on Instagram</span>&nbsp;</a></td>
+		</tr>
+		<tr valign="inherit">
+			<td style="border-top: 1px solid #e0e0e0; padding-top: 8px; font-size: 11px; color: #777;" valign="inherit">Confidential communication. If received in error, please delete. Information provided is general in nature and does not constitute formal building or engineering advice. No liability accepted for reliance on this email.</td>
+		</tr>
+	</tbody>
+</table>';
     }
 }
