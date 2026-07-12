@@ -465,6 +465,48 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; line-height
 .wa-float svg { width: 32px; height: 32px; }
 @keyframes waBob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -7px; } }
 
+/* ---------- Featured grid (home) — image only, zoom-out on hover ---------- */
+.featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.featured-card {
+  position: relative; border-radius: var(--radius); overflow: hidden;
+  border: 1px solid var(--line); aspect-ratio: 3 / 2; cursor: zoom-in;
+  background: var(--ink-3); box-shadow: 0 10px 30px -18px rgba(0,0,0,0.6);
+}
+.featured-card img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transform: scale(1.12); transition: transform 0.8s cubic-bezier(0.22,1,0.36,1);
+}
+.featured-card:hover img { transform: scale(1.0); }   /* zoom OUT to reveal the full shot */
+.featured-card::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(224,177,113,0); transition: box-shadow 0.4s ease;
+}
+.featured-card:hover::after { box-shadow: inset 0 0 0 2px rgba(224,177,113,0.55); }
+.featured-card .project-zoom { opacity: 0; }
+.featured-card:hover .project-zoom { opacity: 1; }
+@media (max-width: 1024px) { .featured-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .featured-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Home cinematic video ---------- */
+.video-band { padding: 40px 0 20px; }
+.video-frame {
+  max-width: 1120px; margin-inline: auto; aspect-ratio: 16 / 9;
+  border-radius: 18px; overflow: hidden; position: relative;
+  border: 1px solid rgba(207,161,104,0.4);
+  box-shadow: var(--shadow), 0 0 90px -40px rgba(207,161,104,0.55);
+  background: #000;
+}
+.video-frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-frame::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(120% 100% at 50% 0%, transparent 60%, rgba(16,14,11,0.35));
+}
+.video-caption {
+  position: absolute; left: 24px; bottom: 20px; z-index: 2;
+  font-size: 0.82rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-hi);
+  text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+}
+
 /* ---------- Lightbox ---------- */
 .lightbox {
   position: fixed; inset: 0; z-index: 200;

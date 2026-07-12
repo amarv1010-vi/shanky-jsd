@@ -93,60 +93,35 @@
     counters.forEach(function (c) { io.observe(c); });
   }
 
-  /* ---------- Projects gallery ---------- */
-  // Static fallback so the gallery renders even before the database
-  // has projects (or when hosted without PHP, e.g. GitHub preview).
-  var FALLBACK_PROJECTS = [
-    { title: "Rochedale High-Set Residence", category: "highset", location: "Rochedale, QLD", image: "assets/img/projects/proj-highset-01-01.svg", description: "Elevated family home maximising airflow and under-house living on a sloping block." },
-    { title: "Springwood Low-Set Home", category: "lowset", location: "Springwood, QLD", image: "assets/img/projects/proj-lowset-02-01.svg", description: "Open-plan single-level build with strong street presence on a flat allotment." },
-    { title: "Eight Mile Plains Split-Level", category: "split", location: "Eight Mile Plains, QLD", image: "assets/img/projects/proj-split-03-01.svg", description: "Split-level design following the natural terrain with tiered outdoor living." },
-    { title: "Underwood Retail Development", category: "commercial", location: "Underwood, QLD", image: "assets/img/projects/proj-commercial-04-01.svg", description: "Low-rise retail and mixed-use space delivered end-to-end under QLD low-rise licence." },
-    { title: "Calamvale High-Set Build", category: "highset", location: "Calamvale, QLD", image: "assets/img/projects/proj-highset-01-02.svg", description: "Contemporary high-set with premium timber framing and energy-efficient design." },
-    { title: "Ipswich Commercial Fit-Out", category: "commercial", location: "Ipswich, QLD", image: "assets/img/projects/proj-commercial-04-02.svg", description: "Low-rise commercial project with full in-house project management." }
+  /* ============================================================
+     GALLERY (photos) — driven by api/gallery.php (filesystem).
+     - Home  : [data-featured-grid] + [data-video-section]
+     - Projects: dynamic filter bar + [data-projects-grid] (by collection)
+                 + [data-buildtypes-grid] (6 AI build-type boxes)
+     Falls back to built-in placeholders so the site never looks empty.
+     ============================================================ */
+
+  var FALLBACK_FEATURED = [
+    { image: "assets/img/projects/proj-highset-01-01.svg" },
+    { image: "assets/img/projects/proj-lowset-02-01.svg" },
+    { image: "assets/img/projects/proj-split-03-01.svg" },
+    { image: "assets/img/projects/proj-commercial-04-01.svg" },
+    { image: "assets/img/projects/proj-highset-01-02.svg" },
+    { image: "assets/img/projects/proj-commercial-04-02.svg" }
   ];
-
-  var CATEGORY_LABELS = { highset: "High-Set", lowset: "Low-Set", split: "Split-Level", commercial: "Commercial" };
-
-  var galleryImages = []; // flat list for the lightbox (built during render)
+  var FALLBACK_BUILDTYPES = [
+    { image: "assets/img/projects/proj-highset-01-01.svg", category: "High-Set", location: "Rochedale, QLD", description: "Elevated family home maximising airflow and under-house living on a sloping block." },
+    { image: "assets/img/projects/proj-lowset-02-01.svg", category: "Low-Set", location: "Springwood, QLD", description: "Open-plan single-level build with strong street presence on a flat allotment." },
+    { image: "assets/img/projects/proj-split-03-01.svg", category: "Split-Level", location: "Eight Mile Plains, QLD", description: "Split-level design following the natural terrain with tiered outdoor living." },
+    { image: "assets/img/projects/proj-commercial-04-01.svg", category: "Commercial", location: "Underwood, QLD", description: "Low-rise retail and mixed-use space delivered end-to-end under QLD low-rise licence." },
+    { image: "assets/img/projects/proj-highset-01-02.svg", category: "High-Set", location: "Calamvale, QLD", description: "Contemporary high-set with premium timber framing and energy-efficient design." },
+    { image: "assets/img/projects/proj-commercial-04-02.svg", category: "Commercial", location: "Ipswich, QLD", description: "Low-rise commercial project with full in-house project management." }
+  ];
 
   function escAttr(s) { return String(s || "").replace(/"/g, "&quot;"); }
 
-  function renderProjects(list, gridEl) {
-    gridEl.innerHTML = "";
-    galleryImages = list.slice();
-    if (!list.length) {
-      gridEl.innerHTML = '<p class="lede">No projects in this category yet — check back soon.</p>';
-      return;
-    }
-    list.forEach(function (p, i) {
-      var card = document.createElement("article");
-      card.className = "project-card reveal";
-      card.setAttribute("data-category", p.category);
-      var meta = (CATEGORY_LABELS[p.category] || p.category) + (p.location ? " · " + p.location : "");
-      card.innerHTML =
-        '<button class="project-media" data-lightbox="' + i + '" aria-label="View ' + escAttr(p.title) + '">' +
-        '<img loading="lazy" src="' + p.image + '" alt="' + escAttr(p.title) + '">' +
-        '<span class="project-zoom" aria-hidden="true">⤢</span>' +
-        "</button>" +
-        '<div class="project-info">' +
-        '<span class="project-tag">' + meta + "</span>" +
-        "<h3>" + p.title + "</h3>" +
-        (p.description ? "<p>" + p.description + "</p>" : "") +
-        "</div>";
-      gridEl.appendChild(card);
-    });
-    // wire lightbox
-    gridEl.querySelectorAll("[data-lightbox]").forEach(function (btn) {
-      btn.addEventListener("click", function () { openLightbox(parseInt(btn.getAttribute("data-lightbox"), 10)); });
-    });
-    if (gsapReady) {
-      gsap.fromTo(gridEl.children, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", stagger: 0.06 });
-    } else {
-      Array.prototype.forEach.call(gridEl.children, function (c) { c.classList.remove("reveal"); });
-    }
-  }
-
-  /* ---------- Lightbox (premium full-screen viewer) ---------- */
+  /* ----- shared lightbox ----- */
+  var galleryImages = [];
   var lb, lbImg, lbCap, lbIndex = 0;
   function ensureLightbox() {
     if (lb) return;
@@ -171,73 +146,145 @@
       else if (e.key === "ArrowRight") stepLightbox(1);
     });
   }
-  function openLightbox(i) {
+  function openLightbox(list, i) {
     ensureLightbox();
-    lbIndex = i;
-    showLightbox();
-    lb.classList.add("open");
-    document.body.style.overflow = "hidden";
+    galleryImages = list; lbIndex = i; showLightbox();
+    lb.classList.add("open"); document.body.style.overflow = "hidden";
   }
   function showLightbox() {
-    var p = galleryImages[lbIndex];
-    if (!p) return;
-    lbImg.src = p.image;
-    lbImg.alt = p.title || "";
-    lbCap.textContent = (p.title || "") + (p.location ? " — " + p.location : "");
+    var p = galleryImages[lbIndex]; if (!p) return;
+    lbImg.src = p.image; lbImg.alt = p.caption || "";
+    lbCap.textContent = p.caption || "";
   }
-  function stepLightbox(d) {
-    lbIndex = (lbIndex + d + galleryImages.length) % galleryImages.length;
-    showLightbox();
-  }
-  function closeLightbox() {
-    if (lb) lb.classList.remove("open");
-    document.body.style.overflow = "";
+  function stepLightbox(d) { lbIndex = (lbIndex + d + galleryImages.length) % galleryImages.length; showLightbox(); }
+  function closeLightbox() { if (lb) lb.classList.remove("open"); document.body.style.overflow = ""; }
+
+  function animateIn(el) {
+    if (gsapReady) gsap.fromTo(el.children, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", stagger: 0.06 });
+    else Array.prototype.forEach.call(el.children, function (c) { c.classList.remove("reveal"); });
   }
 
-  var projectGrid = document.querySelector("[data-projects-grid]");
-  if (projectGrid) {
-    var allProjects = FALLBACK_PROJECTS;
-    var usingRealPhotos = false;
-    var limit = parseInt(projectGrid.getAttribute("data-limit") || "0", 10);
+  /* ----- fetch the gallery once, then render whatever this page needs ----- */
+  var featuredGrid  = document.querySelector("[data-featured-grid]");
+  var videoSection  = document.querySelector("[data-video-section]");
+  var projectGrid   = document.querySelector("[data-projects-grid]");
+  var buildGrid     = document.querySelector("[data-buildtypes-grid]");
+  var filterBar     = document.querySelector("[data-filter-bar]");
 
-    function applyFilter(cat) {
-      var list = cat === "all" ? allProjects : allProjects.filter(function (p) { return p.category === cat; });
-      if (limit) list = list.slice(0, limit);
-      renderProjects(list, projectGrid);
+  if (featuredGrid || videoSection || projectGrid || buildGrid) {
+    fetch(API_BASE + "/gallery.php")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; })
+      .then(function (g) {
+        g = g && g.ok ? g : {};
+        renderFeatured((g.featured && g.featured.length) ? g.featured : FALLBACK_FEATURED);
+        renderVideo(g.video || null);
+        renderProjects(g.projects || { collections: [], items: [] });
+        renderBuildTypes((g.buildTypes && g.buildTypes.length) ? g.buildTypes : FALLBACK_BUILDTYPES);
+      });
+  }
+
+  /* ----- Home: Featured (images only, zoom-out hover) ----- */
+  function renderFeatured(list) {
+    if (!featuredGrid) return;
+    var lbList = list.map(function (p) { return { image: p.image, caption: "" }; });
+    featuredGrid.innerHTML = "";
+    list.forEach(function (p, i) {
+      var card = document.createElement("button");
+      card.className = "featured-card reveal";
+      card.setAttribute("aria-label", "View featured project " + (i + 1));
+      card.innerHTML = '<img loading="lazy" src="' + p.image + '" alt="JSD featured project ' + (i + 1) + '">' +
+        '<span class="project-zoom" aria-hidden="true">⤢</span>';
+      card.addEventListener("click", function () { openLightbox(lbList, i); });
+      featuredGrid.appendChild(card);
+    });
+    animateIn(featuredGrid);
+  }
+
+  /* ----- Home: cinematic video ----- */
+  function renderVideo(src) {
+    if (!videoSection) return;
+    if (!src) { videoSection.style.display = "none"; return; }
+    videoSection.style.display = "";
+    var frame = videoSection.querySelector(".video-frame");
+    frame.querySelector("video") || frame.insertAdjacentHTML("afterbegin",
+      '<video autoplay muted loop playsinline preload="metadata"></video>');
+    var v = frame.querySelector("video");
+    v.src = src;
+    v.play().catch(function () {}); // some browsers need the muted+playsinline combo (already set)
+  }
+
+  /* ----- Projects: filterable photos by collection ----- */
+  function renderProjects(data) {
+    if (!projectGrid) return;
+    var items = data.items || [];
+    var collections = data.collections || [];
+    var usingReal = items.length > 0;
+
+    if (!usingReal) {
+      // graceful placeholder so the page isn't empty pre-upload
+      items = FALLBACK_BUILDTYPES.map(function (p, i) {
+        return { collection: "sample", collectionLabel: "Portfolio", image: p.image, sort: i };
+      });
+      collections = [];
     }
 
-    function refreshFilterButtons() {
-      // hide category buttons that have no photos so the bar always looks intentional
-      var present = {};
-      allProjects.forEach(function (p) { present[p.category] = true; });
-      document.querySelectorAll(".filter-btn").forEach(function (btn) {
-        var f = btn.getAttribute("data-filter");
-        btn.style.display = (f === "all" || present[f]) ? "" : "none";
+    function draw(list) {
+      projectGrid.innerHTML = "";
+      var lbList = list.map(function (p) { return { image: p.image, caption: p.collectionLabel || "" }; });
+      list.forEach(function (p, i) {
+        var card = document.createElement("article");
+        card.className = "project-card reveal";
+        card.setAttribute("data-collection", p.collection);
+        card.innerHTML =
+          '<button class="project-media" aria-label="View photo">' +
+          '<img loading="lazy" src="' + p.image + '" alt="' + escAttr(p.collectionLabel) + '">' +
+          '<span class="project-zoom" aria-hidden="true">⤢</span></button>' +
+          (p.collectionLabel ? '<div class="project-info"><span class="project-tag">' + p.collectionLabel + "</span></div>" : "");
+        card.querySelector(".project-media").addEventListener("click", function () { openLightbox(lbList, i); });
+        projectGrid.appendChild(card);
       });
+      animateIn(projectGrid);
     }
 
-    // Merge the filesystem gallery (drop-a-folder) with any admin/DB projects.
-    Promise.all([
-      fetch(API_BASE + "/gallery.php").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
-      fetch(API_BASE + "/projects.php").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
-    ]).then(function (res) {
-      var gallery = (res[0] && res[0].ok && res[0].projects) ? res[0].projects : [];
-      var db = (res[1] && res[1].ok && res[1].projects) ? res[1].projects : [];
-      // Real photos dropped in the gallery folder win outright (no demo mixing).
-      // Otherwise use admin/DB projects; otherwise the built-in placeholders.
-      if (gallery.length) { allProjects = gallery; usingRealPhotos = true; }
-      else if (db.length) { allProjects = db; usingRealPhotos = true; }
-      refreshFilterButtons();
-      applyFilter("all");
-    });
-
-    document.querySelectorAll(".filter-btn").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        document.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
-        btn.classList.add("active");
-        applyFilter(btn.getAttribute("data-filter"));
+    // build filter bar dynamically
+    if (filterBar) {
+      var btns = ['<button class="filter-btn active" data-filter="all">All</button>'];
+      collections.forEach(function (c) {
+        btns.push('<button class="filter-btn" data-filter="' + c.key + '">' + c.label + "</button>");
       });
+      filterBar.innerHTML = btns.join("");
+      filterBar.querySelectorAll(".filter-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          filterBar.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          var f = btn.getAttribute("data-filter");
+          draw(f === "all" ? items : items.filter(function (p) { return p.collection === f; }));
+        });
+      });
+    }
+    draw(items);
+  }
+
+  /* ----- Projects: 6 build-type boxes (AI images + fixed labels) ----- */
+  function renderBuildTypes(list) {
+    if (!buildGrid) return;
+    var lbList = list.map(function (p) { return { image: p.image, caption: p.category + " · " + p.location }; });
+    buildGrid.innerHTML = "";
+    list.forEach(function (p, i) {
+      var card = document.createElement("article");
+      card.className = "project-card reveal";
+      card.innerHTML =
+        '<button class="project-media" aria-label="View ' + escAttr(p.category) + '">' +
+        '<img loading="lazy" src="' + p.image + '" alt="' + escAttr(p.category + " " + p.location) + '">' +
+        '<span class="project-zoom" aria-hidden="true">⤢</span></button>' +
+        '<div class="project-info">' +
+        '<span class="project-tag">' + p.category + " · " + p.location + "</span>" +
+        "<p>" + p.description + "</p></div>";
+      card.querySelector(".project-media").addEventListener("click", function () { openLightbox(lbList, i); });
+      buildGrid.appendChild(card);
     });
+    animateIn(buildGrid);
   }
 
   /* ---------- Testimonials (API + fallback) ---------- */

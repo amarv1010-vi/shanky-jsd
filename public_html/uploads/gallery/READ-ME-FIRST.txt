@@ -1,66 +1,46 @@
-JSD PROJECT PHOTOS — HOW TO ADD THEM (READ THIS FIRST)
-=======================================================
+JSD PHOTOS — WHERE EACH FOLDER FROM YOUR MAC GOES
+==================================================
 
-Your website reads this "gallery" folder automatically. Put photos in the
-right category subfolder, upload, and they appear on the Projects page in
-perfect 3:2 alignment. No renaming into codes, no admin clicking.
+Your website reads THIS "gallery" folder automatically. Copy your photos from
+your "jsd_photos" folders into the matching folder below, then upload.
 
+YOUR MAC FOLDER                 -->  PUT INTO THIS FOLDER (here)
 --------------------------------------------------------------------
-THE 5 CATEGORY FOLDERS (already created here)
+Featured photos (featured 1-6) -->  featured/
+Evergreen St Rochedale (E1-E9) -->  evergreen/
+Kenmore (K1-K9)                -->  kenmore/
+Sunnydale Project (S1-S10)     -->  sunnydale/
+Ongoing projects (WhatsApp...) -->  active/
+AI Images (AI 1-6)             -->  build-types/
+Video (Video1.mp4)             -->  video/
+
+Just drag the images in. Keep the file names as they are (E1.jpg, featured 1.jpg,
+AI 1.jpg, WhatsApp Image 1.jpeg, Video1.mp4, etc.) — the site reads the number in
+each name to order them. You do NOT need to rename or crop anything.
+
+WHERE EACH APPEARS ON THE SITE
 --------------------------------------------------------------------
-  high-set/       -> High-Set Houses
-  low-set/        -> Low-Set Houses
-  split-level/    -> Split-Level Homes
-  commercial/     -> Low-Rise Commercial
-  featured/       -> Best hero shots (shown large on the home page)
+  featured/     -> Home page "Featured Projects" (6 images, zoom on hover)
+  evergreen/    -> Projects page, filter "Evergreen St, Rochedale"
+  kenmore/      -> Projects page, filter "Kenmore"
+  sunnydale/    -> Projects page, filter "Sunnydale"
+  active/       -> Projects page, filter "Active Projects"
+  build-types/  -> Projects page, the 6 build-type boxes (AI 1..6 map to:
+                   AI1 High-Set Rochedale, AI2 Low-Set Springwood,
+                   AI3 Split-Level Eight Mile Plains, AI4 Commercial Underwood,
+                   AI5 High-Set Calamvale, AI6 Commercial Ipswich)
+  video/        -> Home page main video (auto-plays, muted, loops)
 
-Drop each project photo into the folder that matches its type.
-
+HOW TO UPLOAD (one time, ~5 min)
 --------------------------------------------------------------------
-HOW TO NAME EACH PHOTO  (this controls order + the caption shown)
---------------------------------------------------------------------
-Format:   NN Title Of The Project.jpg
-          ^^ number = display order (01 shows first)
-             ^^^^^^^^^ becomes the caption under the photo
-
-Examples (just rename in Finder — no Photoshop needed for naming):
-  high-set/01 Rochedale Family Home.jpg
-  high-set/02 Calamvale Hillside Build.jpg
-  low-set/01 Springwood Open-Plan Home.jpg
-  split-level/01 Eight Mile Plains Split Level.jpg
-  commercial/01 Underwood Retail Development.jpg
-  featured/01 Signature Rochedale Build.jpg
-
-Tips:
-  - Dashes/underscores also work: "01_Rochedale-Family-Home.jpg"
-  - No number is fine too; numbered photos just come first.
-  - Multiple photos per project? Number them: 01, 02, 03...
-
---------------------------------------------------------------------
-WHAT SIZE / CROP IN PHOTOSHOP?
---------------------------------------------------------------------
-EASIEST (recommended): DON'T crop at all. Just export each photo as a
-LANDSCAPE JPEG at least 1600 px wide (quality 80). The website crops every
-photo to a perfect 3:2 frame automatically and centres it — so alignment is
-always precise, no matter the original size.
-
-If you DO want to crop in Photoshop for full control:
-  - Aspect ratio: 3:2  (width:height)
-  - Export size:  1500 x 1000 px, JPEG quality 80
-  - This is the exact frame the website uses.
-
-Portrait photos work too, but landscape looks best (the 3:2 frame is wide).
-
---------------------------------------------------------------------
-HOW TO UPLOAD (one time, ~5 minutes)
---------------------------------------------------------------------
-1. On your Mac, put your named photos into these category subfolders.
-2. Select the whole "gallery" folder -> right-click -> Compress -> gallery.zip
-3. cPanel -> File Manager -> go to  public_html/uploads/
+1. Fill the folders above with your photos + the video.
+2. Select this whole "gallery" folder -> right-click -> Compress -> gallery.zip
+3. cPanel -> File Manager -> open  public_html/uploads/
 4. Upload gallery.zip  ->  right-click  ->  Extract  (overwrite when asked)
-5. Visit  https://www.jsdconstruction.com.au/projects.html  -> your photos
-   are live, cropped and aligned. Refresh once if needed.
+5. Refresh the website. Home shows your featured photos + video; Projects shows
+   your project photos with the new filters + the 6 AI build-type boxes.
 
-That's it. To add more later, just drop more photos in and re-upload.
+SIZES: no cropping needed. Photos auto-fit a clean 3:2 frame. The video should
+be 16:9 (yours is) and it sits in a cinematic 16:9 frame automatically.
 
-(You can delete this READ-ME file from the server if you like.)
+(You can delete this file from the server afterwards.)

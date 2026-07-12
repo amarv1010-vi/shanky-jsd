@@ -1,4 +1,3 @@
-# Serve images only — never execute scripts here
 <FilesMatch "\.(php|phtml|php\d|pl|py|cgi|sh)$">
   Require all denied
 </FilesMatch>
