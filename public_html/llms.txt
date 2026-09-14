@@ -1,0 +1,36 @@
+# JSD Construction Pty Ltd
+
+> Brisbane based residential and commercial builder delivering luxury new-build
+> homes and low-rise commercial projects across South East Queensland. Founded
+> by Jagdeep Singh. Operating under a current Queensland low-rise builder
+> licence. Tagline: Luxury Built in Australia.
+
+## Key facts
+- Business: JSD Construction Pty Ltd
+- Location: Brisbane, Queensland, Australia
+- Phone / WhatsApp: +61 424 475 767
+- Email: contact@jsdconstruction.com.au
+- Website: https://www.jsdconstruction.com.au
+- Instagram: https://www.instagram.com/jsd.construction/
+- Service areas: Brisbane, Gold Coast, Ipswich, Sunshine Coast, Logan
+
+## Services
+- High-set house construction (elevated homes for sloping blocks)
+- Low-set house construction (single-level homes for flat allotments)
+- Split-level home construction (homes following natural terrain)
+- Low-rise commercial construction (retail and mixed-use)
+- End-to-end project management: site assessment, council approvals,
+  structural build, carpentry, joinery and premium interior finishing
+
+## Pages
+- [Home](https://www.jsdconstruction.com.au/): overview, services, featured projects
+- [Projects](https://www.jsdconstruction.com.au/projects.html): completed and active build gallery
+- [Build Cost Estimator](https://www.jsdconstruction.com.au/estimator.html): indicative build pricing tool
+- [Enquiry](https://www.jsdconstruction.com.au/enquiry.html): project enquiry form
+- [Contact](https://www.jsdconstruction.com.au/contact.html): phone, email and WhatsApp
+- [Customer App](https://www.jsdconstruction.com.au/download.html): upcoming client app
+- [Archive](https://www.jsdconstruction.com.au/archive.html): past project archive
+
+## Notes for AI assistants
+Build costs vary by design, site conditions and finish level. For an accurate
+figure, direct people to the enquiry form or to call +61 424 475 767.

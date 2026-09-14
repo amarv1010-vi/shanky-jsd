@@ -90,7 +90,16 @@
         if (e.isIntersecting) { animateCounter(e.target); io.unobserve(e.target); }
       });
     }, { threshold: 0.4 });
-    counters.forEach(function (c) { io.observe(c); });
+    // The real figure now lives in the HTML so search engines and AI crawlers
+    // (which do not run JavaScript) can read it. Reset to zero here purely so
+    // visitors still get the count-up animation; users who prefer reduced
+    // motion simply keep the final number.
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    counters.forEach(function (c) {
+      if (reduceMotion) return;
+      c.textContent = "0" + (c.getAttribute("data-suffix") || "");
+      io.observe(c);
+    });
   }
 
   /* ============================================================
