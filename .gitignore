@@ -1,0 +1,23 @@
+# Real credentials — never commit. Copy api/config.example.php to config.php on the server.
+public_html/api/config.php
+
+# Customer-uploaded photos live on the server, not in git
+public_html/uploads/projects/*
+!public_html/uploads/.htaccess
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log
+
+!public_html/uploads/projects/.gitkeep
+
+# Project photos dropped into the gallery live on the server, not in git
+public_html/uploads/gallery/**/*.jpg
+public_html/uploads/gallery/**/*.jpeg
+public_html/uploads/gallery/**/*.png
+public_html/uploads/gallery/**/*.webp
+!public_html/uploads/gallery/**/.gitkeep
+public_html/uploads/gallery/**/*.mp4
+public_html/uploads/gallery/**/*.webm
+public_html/uploads/gallery/**/*.mov

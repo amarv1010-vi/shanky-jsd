@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7B613A"/><stop offset="0.35" stop-color="#C1955D"/>
+      <stop offset="0.55" stop-color="#E0B171"/><stop offset="1" stop-color="#9F7745"/>
+    </linearGradient>
+    <radialGradient id="bg" cx="0.75" cy="0.15" r="1.2">
+      <stop offset="0" stop-color="#2A2318"/><stop offset="1" stop-color="#110E0A"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <g stroke="#CFA168" stroke-opacity="0.06" stroke-width="1">
+    <line x1="0" y1="0" x2="0" y2="1000"/><line x1="64" y1="0" x2="64" y2="1000"/><line x1="128" y1="0" x2="128" y2="1000"/><line x1="192" y1="0" x2="192" y2="1000"/><line x1="256" y1="0" x2="256" y2="1000"/><line x1="320" y1="0" x2="320" y2="1000"/><line x1="384" y1="0" x2="384" y2="1000"/><line x1="448" y1="0" x2="448" y2="1000"/><line x1="512" y1="0" x2="512" y2="1000"/><line x1="576" y1="0" x2="576" y2="1000"/><line x1="640" y1="0" x2="640" y2="1000"/><line x1="704" y1="0" x2="704" y2="1000"/><line x1="768" y1="0" x2="768" y2="1000"/><line x1="0" y1="0" x2="800" y2="0"/><line x1="0" y1="64" x2="800" y2="64"/><line x1="0" y1="128" x2="800" y2="128"/><line x1="0" y1="192" x2="800" y2="192"/><line x1="0" y1="256" x2="800" y2="256"/><line x1="0" y1="320" x2="800" y2="320"/><line x1="0" y1="384" x2="800" y2="384"/><line x1="0" y1="448" x2="800" y2="448"/><line x1="0" y1="512" x2="800" y2="512"/><line x1="0" y1="576" x2="800" y2="576"/><line x1="0" y1="640" x2="800" y2="640"/><line x1="0" y1="704" x2="800" y2="704"/><line x1="0" y1="768" x2="800" y2="768"/><line x1="0" y1="832" x2="800" y2="832"/><line x1="0" y1="896" x2="800" y2="896"/><line x1="0" y1="960" x2="800" y2="960"/>
+  </g>
+  <g fill="none" stroke="url(#g)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M100 780 L100 620 L400 480 L700 620 L700 780"/>
+    <path d="M100 780 L700 780 M160 780 L160 870 M640 780 L640 870 M100 870 L700 870"/>
+    <path d="M200 640 h110 v90 h-110 z M345 640 h110 v90 h-110 z M490 640 h110 v90 h-110 z"/>
+    <path d="M330 870 v-60 h140 v60"/>
+    <path d="M400 480 L400 400 M370 430 h60" stroke-opacity="0.7"/>
+  </g>
+  <text x="400" y="945" text-anchor="middle" font-family="Georgia, serif" font-size="24" letter-spacing="10" fill="#CFA168" fill-opacity="0.9">LUXURY BUILT</text>
+  <text x="400" y="975" text-anchor="middle" font-family="Georgia, serif" font-size="16" letter-spacing="8" fill="#9F7745">IN AUSTRALIA</text>
+</svg>

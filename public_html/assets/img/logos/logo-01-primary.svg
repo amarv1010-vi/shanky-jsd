@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="JSD Construction logo">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7B613A"/>
+      <stop offset="0.28" stop-color="#C1955D"/>
+      <stop offset="0.5" stop-color="#E0B171"/>
+      <stop offset="0.72" stop-color="#CFA168"/>
+      <stop offset="1" stop-color="#9F7745"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="112" height="112" rx="16" fill="#14110C" stroke="url(#gold)" stroke-width="2.5"/>
+  <path d="M22 96 L60 26 L98 96 Z" fill="none" stroke="url(#gold)" stroke-width="3" stroke-linejoin="round" opacity="0.5"/>
+  <text x="60" y="76" text-anchor="middle" font-family="Marcellus, 'Times New Roman', serif" font-size="38" letter-spacing="2" fill="url(#gold)">JSD</text>
+  <text x="60" y="94" text-anchor="middle" font-family="Manrope, sans-serif" font-size="7.5" letter-spacing="3.2" fill="#CFA168">CONSTRUCTION</text>
+</svg>
